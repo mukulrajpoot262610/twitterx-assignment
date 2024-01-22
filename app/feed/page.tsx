@@ -18,7 +18,7 @@ const Feed = () => {
           </Button>
         </div>
       </div>
-      <div className='my-2 h-[70vh] overflow-auto flex flex-col gap-2'>
+      <div className='my-2 h-[76vh] overflow-auto flex flex-col gap-2'>
         <PostCard />
         <PostCard />
         <PostCard />
