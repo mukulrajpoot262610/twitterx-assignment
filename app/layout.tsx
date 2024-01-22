@@ -2,6 +2,7 @@
 import './globals.css';
 import { Provider } from 'react-redux';
 import { store } from '@/global/store';
+import { Toaster } from 'react-hot-toast';
 
 export default function RootLayout({
   children,
@@ -11,7 +12,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className='bg-zinc-50'>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          {children}
+          <Toaster />
+        </Provider>
       </body>
     </html>
   );

@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import toast from 'react-hot-toast';
-// import { useDispatch } from 'react-redux';
-// import { setAuth } from '@/global/authSlice';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '@/global/authSlice';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
@@ -25,7 +25,7 @@ export function UserRegisterForm({
   const [password, setPassword] = React.useState('');
   const [cPassword, setCPassword] = React.useState('');
 
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -33,20 +33,35 @@ export function UserRegisterForm({
     event.preventDefault();
     setIsLoading(true);
 
-    const adminId = process.env.NEXT_PUBLIC_ADMIN_ID;
-    const adminpassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
+    const payload = {
+      name,
+      password,
+      email: id,
+    };
 
-    if (adminId === id && adminpassword === password) {
-      //   dispatch(setAuth({ data: { id: adminId } }));
-      toast.success('Login Successful');
-      router.push('/admin');
-    } else {
-      toast.error('Wrong Credentials');
-    }
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    setTimeout(() => {
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        dispatch(setAuth(responseData.user));
+        toast.success('Registration Successful');
+        router.push('/feed');
+      } else {
+        toast.error(responseData.error_msg);
+      }
+    } catch (error) {
+      console.error('Error sending POST request:', error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   }
 
   return (
@@ -77,7 +92,7 @@ export function UserRegisterForm({
             <Input
               id='id'
               placeholder='email'
-              type='text'
+              type='email'
               autoCapitalize='none'
               autoComplete='text'
               autoCorrect='off'

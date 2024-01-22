@@ -1,9 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 import { Button } from '../ui/button';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/global/store';
 
 const Navbar = () => {
-  const isAuth = true;
+  const { isAuth } = useSelector((state: RootState) => state.auth);
 
   return (
     <nav
