@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-screen z-50 transition-all duration-500 p-6 h-16`}
+      className={`fixed top-0 left-0 w-screen bg-white z-50 border-b transition-all duration-500 p-6 h-16`}
     >
       <div className='flex justify-between items-center max-w-6xl mx-auto h-full'>
         <Link href='/'>
